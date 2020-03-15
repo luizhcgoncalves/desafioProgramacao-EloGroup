@@ -1,0 +1,263 @@
+<html>
+	<head>
+
+		<meta charset="UTF-8">
+		<meta name="author" content="Luiz Henrique Carneiro Gonçalves">
+		
+		<title>Desafio de Programação - Prova Técnica EloGroup</title>
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+        <script type="text/javascript">
+        
+            $(document).ready(function () { 
+                var $telefoneDigitado = $("#f_telefone");
+                $telefoneDigitado.mask("00-00000000", {reverse: false});
+                $telefoneDigitado.toString().replace(/\D/g, "");                
+            });
+
+    		function verificaNome(){
+    			var divNome = document.getElementById("d_nome");
+        		var nomeDigitado = document.getElementById("f_nome").value.indexOf(" ");
+        		var glyphiconNome = document.getElementById("g_nome");
+        		var ajudaNome = document.getElementById("a_nome");
+        		
+        		if(nomeDigitado == -1 || nomeDigitado == 0){
+        			divNome.classList.remove("has-success");
+        			divNome.classList.add("has-error");
+        			ajudaNome.style.display = "block";
+        			glyphiconNome.style.display = "none"
+        		} else {
+        			divNome.classList.remove("has-error");
+        			divNome.classList.add("has-success");
+        			ajudaNome.style.display = "none";
+        			glyphiconNome.style.display = "block"
+        		}
+        	}
+
+    		function confirmarTelefone(){
+            	var divTelefone = document.getElementById("d_telefone");
+            	var telefoneDigitado = document.getElementById("f_telefone").value.length;
+            	var ajudaTelefone = document.getElementById("a_telefone");
+            	var glyphiconTelefone = document.getElementById("g_telefone");
+
+            	if(telefoneDigitado < 11){
+        			divTelefone.classList.remove("has-success");
+        			divTelefone.classList.add("has-error");
+        			ajudaTelefone.style.display = "block";
+        			glyphiconTelefone.style.display = "none";
+        		} else {
+        			divTelefone.classList.remove("has-error");
+            		divTelefone.classList.add("has-success");
+            		ajudaTelefone.style.display = "none";
+            		glyphiconTelefone.style.display = "block";
+        		}
+        	}
+        
+        	function ComoNosConheceu() {
+        		var selecaoCanal = document.getElementById("f_canal").value;
+				var divCanal = document.getElementById("d_canal");
+				var ajudaCanal = document.getElementById("a_canal");
+
+				var divOutrosCanais = document.getElementById("d_outrosCanais");
+				var outrosCanaisDigitado = document.getElementById("f_outrosCanais").value;
+				var ajudaOutrosCanais = document.getElementById("a_outrosCanais");
+				var glyphiconOutrosCanais = document.getElementById("g_outrosCanais");
+        
+        		if(selecaoCanal == "Outros"){
+        			divOutrosCanais.style.display = "block";
+        			divCanal.classList.remove("has-error");
+        			divCanal.classList.add("has-success");
+        			ajudaCanal.style.display = "none";
+
+        			if(outrosCanaisDigitado == ""){
+        				divOutrosCanais.classList.add("has-error");
+            			divOutrosCanais.classList.remove("has-success");
+            			ajudaOutrosCanais.style.display = "block";
+            			glyphiconOutrosCanais.style.display = "none";
+        			} else {
+        				divOutrosCanais.classList.remove("has-error");
+            			divOutrosCanais.classList.add("has-success");
+            			ajudaOutrosCanais.style.display = "none";
+            			glyphiconOutrosCanais.style.display = "block";
+        			}
+        		} else {
+        			divOutrosCanais.style.display = "none";
+        			divCanal.classList.remove("has-success");
+        			divCanal.classList.add("has-error");
+        			ajudaCanal.style.display = "block";
+        		}
+        
+        		if(selecaoCanal == "Escolha"){
+        			divCanal.classList.remove("has-success");
+        			divCanal.classList.add("has-error");
+        			ajudaCanal.style.display = "block";
+        			
+        		} else {
+        			divCanal.classList.remove("has-error");
+        			divCanal.classList.add("has-success");
+        			ajudaCanal.style.display = "none";
+        		}
+
+        		if(selecaoCanal != "Escolha" && selecaoCanal != "Outros"){
+        			divCanal.classList.remove("has-error");
+        			divCanal.classList.add("has-success");
+        		}
+        	}
+        
+        	function mostrarListaDeRedesSociais() {
+        		var opcaoRedesSociais = document.getElementById("f_redesSociaisSim");
+        		var divRedesSociais = document.getElementById("d_redesSociaisLista");
+        		divRedesSociais.style.display = opcaoRedesSociais.checked ? "block" : "none";
+        	}
+
+        	function validarFormulario(){
+            	var x = document.forms["formulario"]["n_nome"].value.indexOf(" ");
+            	if(x == -1 || x == 0){
+                	alert("O nome é obrigatório");
+                	return false;
+            	}
+            	return submeterFormulario();
+        	}
+
+        	function submeterFormulario(){
+        		const usuario = {};
+        		usuario.Nome = document.getElementById("f_nome").value; 
+				document.getElementById("f_telefone").value != "" ? usuario.Telefone = document.getElementById("f_telefone").value : null;
+				document.getElementById("f_canal").value != "Escolha" ? usuario.Canal = document.getElementById("f_canal").value : null;
+
+				if(usuario.Canal == "Outros"){
+					usuario.OutrosCanais = document.getElementById("f_outrosCanais").value;
+				}
+
+				if(document.getElementById("f_redesSociaisSim").checked || document.getElementById("f_redesSociaisNao").checked){
+					document.getElementById("f_redesSociaisSim").checked ? usuario.RedesSociais = "Sim" : usuario.RedesSociais = "Não";
+				}
+				
+				if(usuario.RedesSociais == "Sim"){
+					var array = [];
+					var redesSociaisSelecionadas = document.getElementsByName("n_redesSociaisSelecionadas[]");
+					var x = redesSociaisSelecionadas.length;
+
+					for(var i = 0; i < x; i++){
+						if(redesSociaisSelecionadas[i].checked){
+							array.push(redesSociaisSelecionadas[i].value);
+						}
+					}
+					usuario.RedesSociaisLista = array;
+				}
+        		
+				return alert(JSON.stringify(usuario));
+        	}
+        </script>
+        
+        <style type="text/css">
+            .center-block {
+                position: absolute;
+                top: 50%;
+                left:50%;
+                transform: translate(-50%,-50%);
+            }
+        </style>
+	</head>
+
+	<body>
+    	<div id="d_principal" class="container center-block" align="center">
+    		<form id="formulario" name="formulario" action="http://localhost:8080" method="POST" onsubmit="return validarFormulario()">
+    			<div id="d_formulario" class="panel panel-primary" style="width: 50%">
+    				<div class="panel-heading" align="left">Cadastro</div>
+    				<br>
+    
+    				<div class="form row has-feedback" style="width: 90%">
+    					<div id="d_nome" class="form-group col-sm-7" align="left">
+    						<label class="control-label" for="f_nome">Nome:</label>
+    						<input id="f_nome" name="n_nome" type="text" class="form-control" placeholder="Digite seu nome completo" onfocusout="verificaNome()" required>
+    						<span id="g_nome" class="glyphicon glyphicon-ok form-control-feedback" style="display: none"></span> 
+    						<span id="a_nome" class="help-block" style="display: none">Escreva seu nome e sobrenome</span>
+    					</div>
+    
+    					<div id="d_telefone" class="form-group col-sm-5 has-feedback" align="left">
+    						<label class="control-label" for="telefone">Telefone:</label>
+    						<input id="f_telefone" name="n_telefone" type="text" class="form-control" placeholder="99 - 99999999" maxlength="10" onfocusout="confirmarTelefone()">
+    						<span id="g_telefone" class="glyphicon glyphicon-ok form-control-feedback" style="display: none"></span>
+    						<span id="a_telefone" class="help-block" style="display: none">Telefone incompleto</span>
+    					</div>
+    				</div>
+    
+    				<div class="form row" style="width: 90%" align="left">
+    					<div id="d_canal" class="form-group col-sm-5 has-feedback">
+    						<label for="f_canal">Como nos conheceu?</label>
+    					
+    						<select id="f_canal" name="n_canal" class="form-control" onChange="ComoNosConheceu()">
+    							<option value="Escolha">Escolha uma opção</option>
+    							<option value="TV">TV</option>
+    							<option value="Internet">Internet</option>
+    							<option value="Outros">Outros</option>
+    						</select>
+    							
+    						<span id="a_canal" class="help-block" style="display: none">Selecione uma opção</span>
+    					</div>
+    					
+    
+    					<div id="d_outrosCanais" class="form-group col-sm-7 has-feedback" style="display: none">
+    						<label for="f_outrosCanais">Especifique:</label>
+    						
+    						<input id="f_outrosCanais" name="n_outrosCanais" type="text" class="form-control" onfocusout="ComoNosConheceu()">
+    						<span id="a_outrosCanais" class="help-block" style="display: none">Conte como nos conheceu</span>
+    						<span id="g_outrosCanais" class="glyphicon glyphicon-ok form-control-feedback" style="display: none"></span>
+    					</div>
+    				</div>
+    
+    				<div id="d_redesSociais has-feedback" class="form row" style="width: 90%" align="left">
+    					<div class="form-group col-sm-4">
+    						<label>Possui rede social?</label>
+    					</div>
+    					
+    					<div class="form-group col-sm-8">
+    						<label class="radio-inline" for="f_redesSociaisSim">
+    						<input id="f_redesSociaisSim" name="n_redesSociais" type="radio" onClick="mostrarListaDeRedesSociais()" />
+    						 Sim</label>
+    						
+    						<label class="radio-inline" for="OpcaoNao">
+    						<input id="f_redesSociaisNao" name="n_redesSociais" type="radio" onClick="mostrarListaDeRedesSociais()" />
+    					 	 Não</label>
+    					</div>
+    				</div>
+    
+    				<div id="d_redesSociaisLista" class="form row" style="width: 90%; display: none" align="left">
+    
+    					<div class="form-group col-sm-4">
+    						<label>Quais: </label>
+    					</div>
+    
+    					<div class="form-inline col-sm-8">
+    						<div class="form-group">
+    							<label class="checkbox-inline" for="facebook">
+    							<input id="f_redesSociaisFacebook" name="n_redesSociaisSelecionadas[]" value="Facebook" type="checkbox" />
+    							Facebook</label>
+    						</div>
+    
+    						<div class="form-group">
+    							<label class="checkbox-inline" for="linkedin">
+    							<input  id="f_redesSociaisLinkedIn" name="n_redesSociaisSelecionadas[]" value="LinkedIn" type="checkbox" />
+    							LinkedIn</label>
+    						</div>
+    
+    						<div class="form-group">
+    							<label class="checkbox-inline" for="instagram">
+    							<input id="f_redesSociaisInstagram" name="n_redesSociaisSelecionadas[]" value="Instagram" type="checkbox" />
+    							Instagram</label>
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+    			
+    			<input value="Cadastrar" type="submit" class="btn btn-primary" />
+    			<input value="Limpar dados" type="reset" class="btn btn-danger" />
+    
+    		</form>
+    	</div>
+	</body>
+</html>
